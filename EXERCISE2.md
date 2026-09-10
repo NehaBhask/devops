@@ -1,12 +1,5 @@
 # Kubernetes Basics with Minikube — Flask App Deployment
 
-**Date performed:** 09 September 2026
-**Environment:** Windows 11 Home Single Language 25H2, PowerShell (Administrator), Docker driver, Minikube v1.38.1
-
-This document records the steps I carried out to deploy a Python Flask application on a local single-node Kubernetes cluster using Minikube, along with the actual output from my terminal.
-
----
-
 ## 1. Starting Minikube
 
 Ran `minikube start`. The first attempt failed because Docker Desktop wasn't running / reachable:
