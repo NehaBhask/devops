@@ -100,7 +100,7 @@ Contents (verified afterwards with `sudo cat`):
 }
 ```
 
-![Contents of the AppArmor profile](apparmor-images/01-profile-contents.jpeg)
+![Contents of the AppArmor profile](images/01-profile-contents.jpeg)
 
 What each rule does:
 
@@ -130,7 +130,7 @@ docker run --rm --security-opt="apparmor=<profile-name>" -p 5000:5000 flask-appa
 
 In my run the profile name was typed as `myapp-armor-profile` (see the screenshot). The container started, Flask reported it was running on `0.0.0.0:5000` (container IP `172.17.0.2`), and the first request from the host was answered with `GET / HTTP/1.1" 200`.
 
-![Loading the profile and running the container](apparmor-images/02-load-profile-docker-run.jpeg)
+![Loading the profile and running the container](images/02-load-profile-docker-run.jpeg)
 
 ### Verify the application still works
 
@@ -142,7 +142,7 @@ curl http://localhost:5000
 
 The application returned its greeting message, showing that the profile still allows the app to serve traffic (network and `/app` access are permitted).
 
-![curl to the Flask app](apparmor-images/03-curl-localhost.jpeg)
+![curl to the Flask app](images/03-curl-localhost.jpeg)
 
 ---
 
@@ -228,7 +228,7 @@ Attempt to read /etc/passwd: exit code 1, output: cat: /etc/passwd: Permission d
 
 `cat` failed with exit code 1 and **Permission denied**, so the `deny /etc/** r` rule is being enforced by AppArmor.
 
-![Reading /etc/passwd is denied](apparmor-images/05-test-restricted-actions.jpeg)
+![Reading /etc/passwd is denied](images/05-test-restricted-actions.jpeg)
 
 
 ---
