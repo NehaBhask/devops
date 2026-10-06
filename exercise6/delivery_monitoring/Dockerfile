@@ -1,0 +1,11 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+RUN pip install prometheus-client
+
+COPY delivery_metrics.py .
+
+EXPOSE 8000
+
+CMD ["python", "delivery_metrics.py"]
