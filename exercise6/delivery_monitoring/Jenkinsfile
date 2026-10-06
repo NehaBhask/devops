@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Pre-check Docker') {
+            steps {
+                sh 'docker --version'
+                sh 'docker info'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                    cd /delivery_monitoring
+                    docker build -t delivery_metrics .
+                '''
+            }
+        }
+
+        stage('Remove Old Container') {
+            steps {
+                sh '''
+                    docker rm -f delivery_metrics 2>/dev/null || true
+                '''
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                sh '''
+                    docker run -d \
+                    --name delivery_metrics \
+                    -p 8000:8000 \
+                    delivery_metrics
+                '''
+            }
+        }
+
+        stage('Verify Metrics') {
+            steps {
+                sh '''
+                    sleep 5
+                    curl -f http://host.docker.internal:8000/metrics
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Delivery monitoring pipeline completed successfully!'
+        }
+
+        failure {
+            echo 'Delivery monitoring pipeline failed.'
+        }
+    }
+}
